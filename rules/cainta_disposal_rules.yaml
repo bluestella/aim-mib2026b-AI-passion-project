@@ -1,0 +1,303 @@
+# Cainta disposal rules — the Stage-2 decision layer.
+#
+# Plan §5.2 is explicit: given material_class plus local rules, disposal_pathway
+# is largely deterministic. It is implemented here as a rules table, not as a
+# second classifier, because dressing a lookup table up as machine learning is
+# something a panel will catch and an LGU partner will not forgive.
+#
+# READ THIS BEFORE USING ANY VALUE BELOW.
+# Every legal citation carries a `verification` field and every price carries an
+# `as_of` and a `confidence`. Values marked `unverified` are placeholders taken
+# from the planning document — they are what we expect to find, not what we have
+# confirmed. Phase 1 replaces them with values read out of the harvested PDFs
+# (scrapers/cainta_ordinances.py); Phase 2 replaces the prices with field-survey
+# observations. Nothing marked `unverified` may be shown to a user as official
+# LGU policy or as a price a junkshop will actually pay (plan §7.8).
+
+meta:
+  schema_version: 1
+  status: provisional
+  updated_on: 2026-07-26
+  municipality: Cainta
+  province: Rizal
+  psgc_code: "0405805000"
+  blocking_gate: >-
+    Phase 1 is not complete until every legal_source below has
+    verification: harvested and a retrieved_on date.
+
+# --- Legal basis --------------------------------------------------------------
+# Populated by the ordinance harvester. `verification: unverified` means the
+# citation comes from the planning document and the PDF has not yet been read.
+legal_sources:
+  - id: ord-2023-012
+    citation: "Cainta Municipal Ordinance No. 2023-012"
+    title: "Environmental Protection and Waste Management Code of 2023"
+    role: "Primary local waste framework; the code the pathway rules key to."
+    verification: unverified
+    retrieved_on: null
+    local_path: null
+  - id: ord-2022-010
+    citation: "Cainta Municipal Ordinance No. 2022-010"
+    title: "Segregation at source"
+    role: "Household segregation duty; basis for the 'segregate' instruction."
+    verification: unverified
+    retrieved_on: null
+    local_path: null
+  - id: ord-2016-013
+    citation: "Cainta Municipal Ordinance No. 2016-013"
+    title: "Segregation at source (earlier instrument)"
+    role: "Predecessor; check whether 2022-010 amends or repeals it."
+    verification: unverified
+    retrieved_on: null
+    local_path: null
+  - id: ord-2022-002
+    citation: "Cainta Municipal Ordinance No. 2022-002"
+    title: "Anti-littering"
+    role: "Penalty basis for the leakage-path narrative."
+    verification: unverified
+    retrieved_on: null
+    local_path: null
+  - id: ra-9003
+    citation: "Republic Act No. 9003"
+    title: "Ecological Solid Waste Management Act of 2000"
+    role: "National framework; MRF requirements and taxonomy definitions."
+    verification: unverified
+    retrieved_on: null
+  - id: ra-11898
+    citation: "Republic Act No. 11898"
+    title: "Extended Producer Responsibility Act of 2022"
+    role: "EPR coverage flag for plastic packaging; recovery targets."
+    verification: unverified
+    retrieved_on: null
+
+# --- Pathways -----------------------------------------------------------------
+pathways:
+  sell_junkshop:
+    label_en: "Sell to a junkshop"
+    label_tl: "Ibenta sa junkshop"
+    terminus: recovery
+  barangay_mrf:
+    label_en: "Bring to the barangay MRF"
+    label_tl: "Dalhin sa MRF ng barangay"
+    terminus: recovery
+  home_compost:
+    label_en: "Compost at home"
+    label_tl: "I-compost sa bahay"
+    terminus: recovery
+  special_waste_dropoff:
+    label_en: "Special waste drop-off"
+    label_tl: "Espesyal na basura — may hiwalay na drop-off"
+    terminus: controlled
+  residual_to_slf:
+    label_en: "Residual — collected for the sanitary landfill"
+    label_tl: "Residual — kokolektahin para sa sanitary landfill"
+    terminus: disposal
+
+# --- Price provenance ---------------------------------------------------------
+# One place to state what the price ranges below are and are not.
+price_provenance:
+  source: "Planning document §5.1, indicative 2026 ranges."
+  confidence: low
+  verified_shops: 0
+  note: >-
+    These are indicative ranges, not observed Cainta counter prices. The UI must
+    show last_verified_date alongside any price and visibly decay confidence as
+    it ages (plan §10). Until verified_shops >= 25, present ranges as
+    "typical range" and never as "what this shop pays".
+
+# --- Materials ----------------------------------------------------------------
+# `class` values are the 10-class taxonomy from plan §5.1, mapped to junkshop
+# trade names rather than academic categories.
+materials:
+  - class: PET_bottle
+    local_names: [bote, plastik, "PET"]
+    resin_code: 1
+    is_laminated_multilayer: false
+    typical_unit_mass_g: 25
+    contamination_sensitivity: medium
+    epr_covered: true
+    pathway: sell_junkshop
+    fallback_pathway: barangay_mrf
+    price_php_per_kg: {low: 10, high: 14, confidence: low, as_of: "2026"}
+    accepted_by_pct_of_local_junkshops: null
+    prep_en: "Empty it, rinse it, and crush it flat. Caps and labels can stay on for most buyers — confirm with the shop."
+    prep_tl: "Ubusin, banlawan, at ipisa. Karaniwang tinatanggap pati takip at label — itanong sa junkshop."
+    citations: [ord-2022-010, ra-11898]
+
+  - class: HDPE_PP_rigid
+    local_names: [sibak, "HDPE", "PP"]
+    resin_code: 2
+    is_laminated_multilayer: false
+    typical_unit_mass_g: 40
+    contamination_sensitivity: medium
+    epr_covered: true
+    pathway: sell_junkshop
+    fallback_pathway: barangay_mrf
+    price_php_per_kg: {low: 15, high: 15, confidence: low, as_of: "2026"}
+    accepted_by_pct_of_local_junkshops: null
+    prep_en: "Rinse out food or detergent residue. Shampoo bottles, pails, and basins count."
+    prep_tl: "Banlawan ang natirang laman. Kasama rito ang bote ng shampoo, timba, at planggana."
+    citations: [ord-2022-010, ra-11898]
+
+  - class: plastic_film_sachet
+    local_names: [sachet, laminated, "plastik na manipis"]
+    resin_code: 7
+    is_laminated_multilayer: true
+    typical_unit_mass_g: 3
+    contamination_sensitivity: high
+    epr_covered: true
+    pathway: residual_to_slf
+    fallback_pathway: null
+    price_php_per_kg: {low: 0, high: 0, confidence: medium, as_of: "2026"}
+    accepted_by_pct_of_local_junkshops: 0
+    prep_en: "No junkshop buys this. Keep it dry and out of the drain — this is the material that clogs Cainta's creeks. Check whether a nearby EPR take-back or ecobrick programme accepts it."
+    prep_tl: "Walang junkshop na bumibili nito. Panatilihing tuyo at huwag itapon sa kanal — ito ang bumabara sa mga sapa ng Cainta. Tingnan kung may EPR take-back o ecobrick program malapit sa inyo."
+    citations: [ord-2023-012, ra-11898]
+    # See plan §5.1 and §10. This class has no market, is the dominant residual
+    # in Philippine household waste, is the primary creek-clogging material, and
+    # is barely present in TACO or TrashNet. Report its recall separately from
+    # headline accuracy, always.
+    is_critical_class: true
+
+  - class: aluminium_can
+    local_names: [lata, aluminum, "aluminium"]
+    resin_code: null
+    is_laminated_multilayer: false
+    typical_unit_mass_g: 15
+    contamination_sensitivity: low
+    epr_covered: false
+    pathway: sell_junkshop
+    fallback_pathway: barangay_mrf
+    price_php_per_kg: {low: 50, high: 70, confidence: low, as_of: "2026"}
+    accepted_by_pct_of_local_junkshops: null
+    prep_en: "Rinse and flatten. The highest-value everyday item in most households."
+    prep_tl: "Banlawan at ipisa. Ito ang pinakamahal sa karaniwang basura sa bahay."
+    citations: [ord-2022-010]
+
+  - class: ferrous_metal
+    local_names: [bakal, yero]
+    resin_code: null
+    is_laminated_multilayer: false
+    typical_unit_mass_g: 200
+    contamination_sensitivity: low
+    epr_covered: false
+    pathway: sell_junkshop
+    fallback_pathway: null
+    price_php_per_kg: {low: 11, high: 14, confidence: low, as_of: "2026"}
+    accepted_by_pct_of_local_junkshops: null
+    prep_en: "Sold by weight. Many shops set a minimum weight — worth checking before you carry it over."
+    prep_tl: "Timbang ang basehan. Marami ang may minimum na timbang — itanong muna bago dalhin."
+    citations: [ord-2022-010]
+
+  - class: copper_wire
+    local_names: [tanso]
+    resin_code: null
+    is_laminated_multilayer: false
+    typical_unit_mass_g: 50
+    contamination_sensitivity: low
+    epr_covered: false
+    pathway: sell_junkshop
+    fallback_pathway: null
+    price_php_per_kg: {low: 350, high: 400, confidence: low, as_of: "2026"}
+    accepted_by_pct_of_local_junkshops: null
+    prep_en: "The highest-value common scrap. Stripped wire is worth more than insulated."
+    prep_tl: "Pinakamataas ang halaga. Mas mahal ang hinubaran ng insulation."
+    citations: [ord-2022-010]
+
+  - class: glass_bottle
+    local_names: ["bote (salamin)", salamin]
+    resin_code: null
+    is_laminated_multilayer: false
+    typical_unit_mass_g: 300
+    contamination_sensitivity: medium
+    epr_covered: false
+    pathway: barangay_mrf
+    fallback_pathway: residual_to_slf
+    price_php_per_kg: {low: 0, high: 2, confidence: low, as_of: "2026"}
+    accepted_by_pct_of_local_junkshops: null
+    prep_en: "Often refused by junkshops — heavy, low value, and a breakage risk. Refillable soft-drink and beer bottles are the exception: return those to the store for the deposit."
+    prep_tl: "Madalas tinatanggihan ng junkshop — mabigat, mababa ang halaga, at delikadong mabasag. Iba ang bote ng softdrinks at beer na may balik-bote — isauli sa tindahan."
+    citations: [ord-2022-010]
+
+  - class: cardboard
+    local_names: [karton]
+    resin_code: null
+    is_laminated_multilayer: false
+    typical_unit_mass_g: 500
+    contamination_sensitivity: high
+    epr_covered: true
+    pathway: sell_junkshop
+    fallback_pathway: barangay_mrf
+    price_php_per_kg: {low: 4, high: 6, confidence: low, as_of: "2026"}
+    accepted_by_pct_of_local_junkshops: null
+    prep_en: "Must be dry. Wet or greasy cardboard is refused, so keep it inside before a storm."
+    prep_tl: "Kailangang tuyo. Tinatanggihan ang basa o mamantika — itago sa loob bago umulan."
+    citations: [ord-2022-010, ra-11898]
+
+  - class: paper_newsprint
+    local_names: [dyaryo, "puting papel"]
+    resin_code: null
+    is_laminated_multilayer: false
+    typical_unit_mass_g: 5
+    contamination_sensitivity: high
+    epr_covered: false
+    pathway: sell_junkshop
+    fallback_pathway: barangay_mrf
+    price_php_per_kg: {low: 4, high: 8, confidence: low, as_of: "2026"}
+    accepted_by_pct_of_local_junkshops: null
+    prep_en: "Keep dry and bundled. White paper is graded separately from newsprint and pays more."
+    prep_tl: "Panatilihing tuyo at nakabigkis. Hiwalay ang grado ng puting papel — mas mataas ang bayad."
+    citations: [ord-2022-010]
+
+  - class: organic_food_waste
+    local_names: [bulok, "nabubulok"]
+    resin_code: null
+    is_laminated_multilayer: false
+    typical_unit_mass_g: 100
+    contamination_sensitivity: low
+    epr_covered: false
+    pathway: home_compost
+    fallback_pathway: barangay_mrf
+    price_php_per_kg: {low: 0, high: 0, confidence: medium, as_of: "2026"}
+    accepted_by_pct_of_local_junkshops: 0
+    prep_en: "Compost it or set it out on the biodegradable collection day. RA 9003 treats this as a diverted stream, not residual — it is usually the largest share of household waste by weight."
+    prep_tl: "I-compost o ilabas sa araw ng nabubulok. Sa ilalim ng RA 9003, hindi ito residual — kadalasan ito ang pinakamabigat na bahagi ng basura sa bahay."
+    citations: [ra-9003, ord-2022-010]
+
+  - class: residual_other
+    local_names: [residual, "iba pa"]
+    resin_code: null
+    is_laminated_multilayer: null
+    typical_unit_mass_g: null
+    contamination_sensitivity: null
+    epr_covered: false
+    pathway: residual_to_slf
+    fallback_pathway: null
+    price_php_per_kg: {low: 0, high: 0, confidence: medium, as_of: "2026"}
+    accepted_by_pct_of_local_junkshops: 0
+    prep_en: "Catch-all for anything the classifier cannot place. Set out on residual collection day."
+    prep_tl: "Para sa hindi matukoy. Ilabas sa araw ng residual."
+    citations: [ord-2023-012]
+
+# --- Overrides ----------------------------------------------------------------
+# Applied after the material lookup. These are hazard and special-waste routes
+# that cut across material classes, so they cannot live on a single class row.
+overrides:
+  - id: special-waste-battery
+    when: {user_flag: battery}
+    pathway: special_waste_dropoff
+    reason_en: "Batteries are special waste under RA 9003 and must not enter household residual."
+    reason_tl: "Espesyal na basura ang baterya sa ilalim ng RA 9003 — hindi ito dapat ihalo sa residual."
+    citations: [ra-9003, ord-2023-012]
+  - id: special-waste-ewaste
+    when: {user_flag: electronic}
+    pathway: special_waste_dropoff
+    reason_en: "Electronics need a WEEE-accredited handler. Some junkshops buy them for the copper — that is not safe handling."
+    reason_tl: "Kailangan ng akreditadong tagakuha ang electronics. May junkshop na bumibili para sa tanso — hindi iyon ligtas na pagtatapon."
+    citations: [ra-9003, ord-2023-012]
+  - id: contaminated-recyclable
+    when: {contaminated: true}
+    pathway: residual_to_slf
+    reason_en: "Food-contaminated paper and cardboard are refused at the counter and downgrade a whole bale."
+    reason_tl: "Tinatanggihan ang papel at kartong may dumi ng pagkain — nasisira nito ang buong bale."
+    citations: [ord-2022-010]

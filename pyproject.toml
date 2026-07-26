@@ -1,0 +1,55 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "daloy-scan"
+version = "0.1.0"
+description = "Data and machine learning pipeline for Project DALOY Scan, a zero-waste web app for Cainta, Rizal"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "requests>=2.31",
+    "PyYAML>=6.0",
+]
+
+[project.optional-dependencies]
+# Phase 1 — PDF harvesting and parsing.
+parse = [
+    "pdfplumber>=0.11",
+    "pytesseract>=0.3.10",
+]
+# Phase 2 — spatial work. h3 is optional; daloy.spatial degrades to a
+# documented square-grid fallback without it, so the privacy boundary holds
+# either way.
+spatial = [
+    "h3>=4.0",
+    "shapely>=2.0",
+]
+# Phases 4-6 — the model bake-off. Not needed for the rules-only v1.
+ml = [
+    "numpy>=1.26",
+    "pandas>=2.1",
+    "scikit-learn>=1.4",
+    "scikit-image>=0.22",
+    "Pillow>=10.0",
+]
+dev = [
+    "pytest>=8.0",
+    "ruff>=0.5",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src", "."]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 100
+src = ["src", "scrapers", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]

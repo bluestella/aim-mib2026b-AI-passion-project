@@ -1,0 +1,52 @@
+# Harvested source material. data/raw/ is immutable and reproducible by re-running
+# the scrapers, so the PDFs themselves stay out of git — but the provenance manifest
+# is committed, because it is the audit trail (plan §7.8).
+data/raw/*
+!data/raw/.gitkeep
+!data/raw/_manifest.jsonl
+
+data/interim/*
+!data/interim/.gitkeep
+
+data/processed/*
+!data/processed/.gitkeep
+
+# TACO, TrashNet, OpenLitterMap. Large, externally hosted, separately licensed.
+data/external/*
+!data/external/.gitkeep
+
+# Trained weights. Track these with a release or an artifact store, not with git.
+models/*
+!models/.gitkeep
+
+# Never commit anything that could carry a user's location or a minor's data.
+*.sqlite
+*.db
+scans/
+uploads/
+
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+.env
+
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+.ipynb_checkpoints/
+
+node_modules/
+app/dist/
+app/build/
+
+.DS_Store
+*.swp
+.idea/
+.vscode/

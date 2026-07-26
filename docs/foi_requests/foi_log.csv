@@ -1,0 +1,4 @@
+request_id,agency,subject,filed_on,channel,status,responded_on,outcome,notes
+A,NSWMC,Cainta SCMAR + approved 10-Year SWM Plan,,eFOI,draft,,,Draft at docs/foi_requests/request_A_nswmc.md
+B,DENR-EMB Region IV-A,Cainta MRF inventory + RA 9003 compliance status,,eFOI,draft,,,Draft at docs/foi_requests/request_B_emb_r4a.md
+C,Cainta MENRO,"Collection schedules, hauling volumes, MRF locations, ordinance copies",,email,draft,,,"Draft at docs/foi_requests/request_C_cainta_menro.md; LGU FOI ordinance, not EO 2"
