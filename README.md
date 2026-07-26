@@ -25,20 +25,25 @@ local knowledge graph first, machine learning second.
 
 ## What is built
 
-| | Status |
-|---|---|
-| Planning document (§0–§11 + Appendix A) | Complete |
-| Scraper toolkit with governance enforced in code | Built, offline-tested |
-| FOI request drafts and deadline tracker | Drafted, ready to file |
-| Disposal rules table (11 classes, bilingual) | Built — **all legal citations `unverified` pending Phase 1** |
-| Rules engine, PCC baseline, spatial binning | Built, 67 tests passing |
-| Junkshop field survey instrument | Drafted |
-| PWA (`app/`) | Phase 3 — not started |
-| Stage-1 classifier (`models/`) | Phase 5–6 — not started |
+| Phase | | Status |
+|---|---|---|
+| — | Planning document (§0–§11 + Appendix A) | Complete |
+| 0 | FOI request drafts and deadline tracker | Drafted, ready to file |
+| 0 | Scraper toolkit with governance enforced in code | Built, offline-tested |
+| 1 | Ordinance / NSWMC harvest | **Blocked — no network access to the source hosts** |
+| 1 | Disposal rules table (11 classes, bilingual) | Built — **all legal citations `unverified`** |
+| 2 | Junkshop field survey instrument | Drafted — fieldwork not started |
+| 3 | **Rules-only PWA (`app/`)** | **Built and browser-verified** |
+| 4–6 | Corpus, model bake-off, classifier (`models/`) | Not started |
 
-The plan sequences ML into v2 deliberately. Phase 3 ships a genuinely useful product
-with **zero machine learning**; if Phases 4–6 never happen, Cainta still gets the first
-machine-readable map of where its waste actually goes.
+The plan sequences ML into v2 deliberately. **Phase 3 ships a genuinely useful product
+with zero machine learning** — and it now runs. If Phases 4–6 never happen, Cainta still
+gets the first machine-readable map of where its waste actually goes.
+
+Phases 1, 2 and 4 are blocked on things code cannot supply: network access to
+`cainta.gov.ph` and `nswmc.emb.gov.ph`, two weekends of junkshop fieldwork, and a school
+partnership. The scrapers are written and tested against fixtures; they degrade loudly
+rather than silently when the network refuses them.
 
 ---
 
@@ -49,7 +54,17 @@ pip install -e ".[dev]"
 pytest
 ```
 
-Ask the rules engine where something goes:
+Run the app:
+
+```bash
+python scripts/build_app_data.py           # compile rules/*.yaml -> app/data/rules.json
+python -m http.server 8765 --directory app # then open http://127.0.0.1:8765/
+```
+
+Pick a barangay, tap `sachet`, and watch it reach Laguna de Bay. See
+[app/README.md](app/README.md) for the invariants that screen enforces.
+
+Ask the rules engine the same question from the CLI:
 
 ```bash
 python -m daloy.rules_engine bote      # PET bottle — sell to junkshop, ~PHP 10-14/kg
@@ -95,11 +110,13 @@ it requires a conscious change in a diff.
 docs/            Plan, data dictionary, privacy notice, FOI drafts, field survey form
 scrapers/        Data harvesters — governance enforced in scrapers/common.py
 rules/           cainta_disposal_rules.yaml — the Stage-2 decision layer
+                 cainta_flow_schematic.yaml — Flow Simulation stages (schematic)
 src/daloy/       rules_engine · metrics (PCC) · spatial (H3 binning)
-tests/           67 tests, fully offline
+scripts/         build_app_data.py (rules -> app bundle) · drive_app.py (browser check)
+app/             The PWA — rules-only v1, no build step
+tests/           85 tests, fully offline
 data/            raw (immutable) · interim · processed · external
 notebooks/       Analysis; logic lives in src/daloy, not in cells
-app/             PWA — Phase 3
 models/          Phase 5-6
 ```
 

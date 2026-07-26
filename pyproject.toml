@@ -38,6 +38,11 @@ dev = [
     "pytest>=8.0",
     "ruff>=0.5",
 ]
+# Phase 3 — scripts/drive_app.py exercises the PWA in a real browser. Kept out of
+# `dev` so the unit suite stays installable without a browser download.
+browser = [
+    "playwright>=1.44",
+]
 
 [tool.setuptools.packages.find]
 where = ["src"]

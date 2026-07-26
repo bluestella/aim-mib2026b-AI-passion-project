@@ -1,0 +1,100 @@
+# Flow Simulation geometry — SCHEMATIC, not surveyed.
+#
+# Plan §2.2 specifies a ~10s animated trace along Cainta's actual drainage network,
+# built from OSM `waterway` polylines plus elevation. That geometry is a Phase-2
+# deliverable and does not exist yet.
+#
+# What this file holds instead is the *documented drainage direction* rendered as an
+# ordered sequence of stages — a diagram, not a map. It is honest about being a
+# diagram: the app labels it as schematic and never draws it over a basemap, because
+# a stylised line on a map reads as surveyed truth and this is not.
+#
+# Replace `stages` with real polylines when scrapers/osm_overpass.py has run and the
+# waterway network has been assembled. Keep `verification` accurate as you do.
+
+meta:
+  schema_version: 1
+  kind: schematic
+  verification: unverified
+  updated_on: 2026-07-26
+  replace_with: >-
+    OSM waterway polylines from scrapers/osm_overpass.py, filtered to the PSA/PSGC
+    Cainta boundary and ordered by elevation (plan §2.2).
+  caveat: >-
+    Stage names below are the general drainage direction described in the planning
+    document. The specific creek serving a given barangay has NOT been verified
+    against OSM or against any LGU drainage plan. The app must not tell a user which
+    named creek their street drains into until that verification exists.
+
+# The leakage path — what happens if the item is thrown or swept into a drain.
+leakage:
+  label_tl: "Kung itatapon"
+  label_en: "If thrown away"
+  stages:
+    - id: street
+      label_tl: "Kalsada at kanal ninyo"
+      label_en: "Your street and its drain"
+      detail_tl: "Nauuwi rito ang basurang naiiwan sa labas kapag umulan."
+      detail_en: "Anything left outside ends up here when it rains."
+    - id: barangay_drainage
+      label_tl: "Drainage ng barangay"
+      label_en: "Barangay drainage"
+      detail_tl: "Dito nagsisimula ang pagbara. Ang sachet ang pangunahing sanhi."
+      detail_en: "Where clogging starts. Sachets are the primary cause."
+    - id: creek
+      label_tl: "Sapa"
+      label_en: "Creek"
+      detail_tl: "Ang mga sapa ng Cainta na dumadaloy palabas ng bayan."
+      detail_en: "The creeks that carry water out of the municipality."
+      verification: unverified
+      note: "Specific creek per barangay not yet verified — do not name one in the UI."
+    - id: manggahan
+      label_tl: "Manggahan Floodway"
+      label_en: "Manggahan Floodway"
+      detail_tl: "Malaking daluyan ng tubig baha palabas ng Metro Manila."
+      detail_en: "The major floodway channel out of the Metro Manila basin."
+    - id: laguna
+      label_tl: "Laguna de Bay"
+      label_en: "Laguna de Bay"
+      detail_tl: "Dito nagtatapos. Hindi na ito babalik."
+      detail_en: "The terminus. It does not come back."
+      terminal: true
+
+# The recovery path — what happens if the item is segregated and taken somewhere.
+recovery:
+  label_tl: "Kung ire-recycle"
+  label_en: "If recovered"
+  stages:
+    - id: segregated
+      label_tl: "Hiwalay sa bahay"
+      label_en: "Segregated at home"
+      detail_tl: "Malinis, tuyo, at hiwalay sa basang basura."
+      detail_en: "Clean, dry, and kept apart from wet waste."
+    - id: handoff
+      label_tl: "Junkshop o MRF"
+      label_en: "Junkshop or MRF"
+      detail_tl: "Dito ito nagiging materyal muli — at may halaga."
+      detail_en: "Where it becomes material again — and has value."
+    - id: consolidator
+      label_tl: "Konsolidador"
+      label_en: "Consolidator"
+      detail_tl: "Pinagsama-sama at ipinapadala sa mga pagawaan."
+      detail_en: "Baled and shipped onward to processors."
+      verification: unverified
+      note: "Downstream chain past the junkshop is unmapped for Cainta — survey Q15."
+    - id: remade
+      label_tl: "Bagong produkto"
+      label_en: "Remade"
+      detail_tl: "Hindi ito napunta sa Laguna de Bay."
+      detail_en: "It did not end up in Laguna de Bay."
+      terminal: true
+
+# Pathways whose terminus is disposal or controlled handling get the leakage
+# animation; recovery pathways get the recovery animation. Special waste gets
+# recovery framing because controlled handling is the correct outcome, not a failure.
+pathway_animation:
+  sell_junkshop: recovery
+  barangay_mrf: recovery
+  home_compost: recovery
+  special_waste_dropoff: recovery
+  residual_to_slf: leakage

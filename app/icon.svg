@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="DALOY Scan">
+  <!-- Maskable: keep all meaning inside the centre 80% safe zone. -->
+  <rect width="512" height="512" fill="#0d4f4a"/>
+  <!-- Two futures of one object: the flow that leaks, and the loop that recovers. -->
+  <path d="M96 176c56 0 56 56 112 56s56-56 112-56 56 56 112 56"
+        fill="none" stroke="#4fd6c4" stroke-width="26" stroke-linecap="round"/>
+  <path d="M96 272c56 0 56 56 112 56s56-56 112-56 56 56 112 56"
+        fill="none" stroke="#4fd6c4" stroke-width="26" stroke-linecap="round" opacity="0.55"/>
+  <path d="M96 368c56 0 56 56 112 56s56-56 112-56 56 56 112 56"
+        fill="none" stroke="#4fd6c4" stroke-width="26" stroke-linecap="round" opacity="0.28"/>
+  <circle cx="256" cy="150" r="34" fill="#5fd487"/>
+</svg>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="tl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0d4f4a">
+<meta name="description" content="Saan napupunta ang basura natin? — DALOY Scan, para sa Cainta, Rizal.">
+<title>DALOY Scan — Saan Napupunta?</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="stylesheet" href="styles.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='26' font-size='26'>♻️</text></svg>">
+</head>
+<body>
+
+<header class="topbar">
+  <button class="back" id="back" hidden aria-label="Bumalik">←</button>
+  <h1>DALOY <span>Scan</span></h1>
+  <button class="ghost" id="nav-info" aria-label="Tungkol sa app">?</button>
+</header>
+
+<!-- Shown whenever the rules table is still provisional. Not dismissible. -->
+<div class="provisional" id="provisional" role="note" hidden>
+  <strong>Paunang bersyon.</strong>
+  <span id="provisional-text"></span>
+</div>
+
+<main id="main">
+
+  <!-- ── Setup ─────────────────────────────────────────────────────── -->
+  <section class="view" id="view-setup" hidden>
+    <h2>Saang barangay kayo?</h2>
+    <p class="lede">
+      Isang beses lang itatanong. Nananatili ito sa telepono ninyo — hindi ito
+      ipinapadala kahit saan.
+    </p>
+    <div class="grid grid-2" id="barangay-list"></div>
+    <p class="fineprint">
+      Hindi namin hinihingi ang eksaktong lokasyon ninyo. Barangay lang.
+      <a href="#" data-goto="privacy">Bakit?</a>
+    </p>
+  </section>
+
+  <!-- ── Picker ────────────────────────────────────────────────────── -->
+  <section class="view" id="view-picker" hidden>
+    <h2>Ano ang hawak ninyo?</h2>
+    <p class="lede">Pindutin ang pinakamalapit na tugma.</p>
+    <div class="grid grid-2" id="material-list"></div>
+    <p class="fineprint" id="picker-foot"></p>
+  </section>
+
+  <!-- ── Modifiers ─────────────────────────────────────────────────── -->
+  <section class="view" id="view-modifiers" hidden>
+    <h2 id="mod-title"></h2>
+    <p class="lede">May nagbabago ba sa mga ito?</p>
+    <div class="stack" id="modifier-list"></div>
+    <button class="primary wide" id="mod-continue">Ituloy</button>
+  </section>
+
+  <!-- ── Pathway card ──────────────────────────────────────────────── -->
+  <section class="view" id="view-card" hidden aria-live="polite">
+    <article class="card" id="card"></article>
+    <div class="actions">
+      <button class="primary" id="act-flow">Ipakita ang daloy</button>
+      <button class="secondary" id="act-save">Idagdag sa Bote Bank</button>
+    </div>
+    <button class="linkish wide" id="act-again">Mag-scan ulit</button>
+  </section>
+
+  <!-- ── Flow simulation ───────────────────────────────────────────── -->
+  <section class="view" id="view-flow" hidden>
+    <h2 id="flow-title"></h2>
+    <ol class="flow" id="flow-stages"></ol>
+    <p class="schematic" id="flow-caveat"></p>
+    <div class="actions">
+      <button class="secondary" id="flow-replay">Ulitin</button>
+      <button class="primary" id="flow-back">Balik sa card</button>
+    </div>
+  </section>
+
+  <!-- ── Bote Bank ─────────────────────────────────────────────────── -->
+  <section class="view" id="view-bank" hidden>
+    <h2>Bote Bank</h2>
+    <p class="lede">Ang naipon ninyo. Nasa telepono lang ito.</p>
+    <div class="totals" id="bank-totals"></div>
+    <ul class="ledger" id="bank-ledger"></ul>
+    <p class="fineprint" id="bank-note"></p>
+    <button class="linkish wide" id="bank-clear">Burahin lahat</button>
+  </section>
+
+  <!-- ── Junkshops ─────────────────────────────────────────────────── -->
+  <section class="view" id="view-shops" hidden>
+    <h2>Mga junkshop</h2>
+    <div id="shops-body"></div>
+  </section>
+
+  <!-- ── Privacy / about ───────────────────────────────────────────── -->
+  <section class="view" id="view-privacy" hidden>
+    <h2>Privacy at tungkol sa app</h2>
+
+    <h3>Ano ang kinokolekta namin</h3>
+    <p><strong>Wala.</strong> Walang server ang bersyong ito. Ang barangay na pinili
+    ninyo at ang Bote Bank ninyo ay nasa telepono lang ninyo, at mabubura kapag
+    binura ninyo ang data ng browser.</p>
+
+    <h3>Bakit hindi hinihingi ang lokasyon</h3>
+    <p>Personal na impormasyon ang eksaktong lokasyon sa ilalim ng
+    <strong>RA 10173</strong> at ng <strong>Cainta Ordinance 2023-005</strong>. Ang
+    scan na ginawa sa bahay ninyo ay address ninyo. Kaya barangay lang ang itinatanong
+    — at kahit iyon ay hindi umaalis sa telepono ninyo.</p>
+
+    <h3>Tungkol sa mga presyo</h3>
+    <p>Ang mga presyong ipinapakita ay <strong>tinatayang halaga lamang</strong>,
+    hindi pa nabe-verify sa alinmang junkshop sa Cainta. Nagbabago ang totoong presyo
+    araw-araw at bawat tindahan. <strong>Magtanong pa rin sa junkshop.</strong> Wala
+    kaming kinikita sa anumang transaksyon ninyo.</p>
+
+    <h3>Tungkol sa mga ordinansa</h3>
+    <p id="privacy-legal"></p>
+
+    <h3>Ang daloy ng tubig</h3>
+    <p>Ang ipinapakitang daloy ay <strong>schematic</strong> — isang dayagram ng
+    pangkalahatang direksyon, hindi mapa. Hindi pa namin nave-verify kung aling sapa
+    ang dumadaloy mula sa bawat barangay, kaya wala kaming pinapangalanang sapa.</p>
+
+    <h3>English summary</h3>
+    <p>This version has no server. Your barangay and your Bote Bank ledger stay on
+    your phone. No precise location is ever requested. Prices are unverified estimates
+    — always confirm at the shop. Ordinance guidance is not yet verified against the
+    source documents and is therefore not attributed to the municipality. The water
+    flow shown is a schematic diagram, not surveyed geometry.</p>
+  </section>
+
+</main>
+
+<nav class="tabbar" id="tabbar" hidden>
+  <button data-goto="picker" class="active"><span>♻️</span>Scan</button>
+  <button data-goto="bank"><span>🏦</span>Bote Bank</button>
+  <button data-goto="shops"><span>📍</span>Junkshop</button>
+  <button data-goto="privacy"><span>🔒</span>Privacy</button>
+</nav>
+
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,588 @@
+{
+  "barangays": [
+    "San Andres",
+    "San Isidro",
+    "San Juan",
+    "San Roque",
+    "Santa Rosa",
+    "Santo Domingo",
+    "Santo Niño"
+  ],
+  "flow": {
+    "caveat": "Stage names below are the general drainage direction described in the planning document. The specific creek serving a given barangay has NOT been verified against OSM or against any LGU drainage plan. The app must not tell a user which named creek their street drains into until that verification exists.",
+    "kind": "schematic",
+    "leakage": {
+      "label_en": "If thrown away",
+      "label_tl": "Kung itatapon",
+      "stages": [
+        {
+          "detail_en": "Anything left outside ends up here when it rains.",
+          "detail_tl": "Nauuwi rito ang basurang naiiwan sa labas kapag umulan.",
+          "id": "street",
+          "label_en": "Your street and its drain",
+          "label_tl": "Kalsada at kanal ninyo"
+        },
+        {
+          "detail_en": "Where clogging starts. Sachets are the primary cause.",
+          "detail_tl": "Dito nagsisimula ang pagbara. Ang sachet ang pangunahing sanhi.",
+          "id": "barangay_drainage",
+          "label_en": "Barangay drainage",
+          "label_tl": "Drainage ng barangay"
+        },
+        {
+          "detail_en": "The creeks that carry water out of the municipality.",
+          "detail_tl": "Ang mga sapa ng Cainta na dumadaloy palabas ng bayan.",
+          "id": "creek",
+          "label_en": "Creek",
+          "label_tl": "Sapa",
+          "note": "Specific creek per barangay not yet verified — do not name one in the UI.",
+          "verification": "unverified"
+        },
+        {
+          "detail_en": "The major floodway channel out of the Metro Manila basin.",
+          "detail_tl": "Malaking daluyan ng tubig baha palabas ng Metro Manila.",
+          "id": "manggahan",
+          "label_en": "Manggahan Floodway",
+          "label_tl": "Manggahan Floodway"
+        },
+        {
+          "detail_en": "The terminus. It does not come back.",
+          "detail_tl": "Dito nagtatapos. Hindi na ito babalik.",
+          "id": "laguna",
+          "label_en": "Laguna de Bay",
+          "label_tl": "Laguna de Bay",
+          "terminal": true
+        }
+      ]
+    },
+    "recovery": {
+      "label_en": "If recovered",
+      "label_tl": "Kung ire-recycle",
+      "stages": [
+        {
+          "detail_en": "Clean, dry, and kept apart from wet waste.",
+          "detail_tl": "Malinis, tuyo, at hiwalay sa basang basura.",
+          "id": "segregated",
+          "label_en": "Segregated at home",
+          "label_tl": "Hiwalay sa bahay"
+        },
+        {
+          "detail_en": "Where it becomes material again — and has value.",
+          "detail_tl": "Dito ito nagiging materyal muli — at may halaga.",
+          "id": "handoff",
+          "label_en": "Junkshop or MRF",
+          "label_tl": "Junkshop o MRF"
+        },
+        {
+          "detail_en": "Baled and shipped onward to processors.",
+          "detail_tl": "Pinagsama-sama at ipinapadala sa mga pagawaan.",
+          "id": "consolidator",
+          "label_en": "Consolidator",
+          "label_tl": "Konsolidador",
+          "note": "Downstream chain past the junkshop is unmapped for Cainta — survey Q15.",
+          "verification": "unverified"
+        },
+        {
+          "detail_en": "It did not end up in Laguna de Bay.",
+          "detail_tl": "Hindi ito napunta sa Laguna de Bay.",
+          "id": "remade",
+          "label_en": "Remade",
+          "label_tl": "Bagong produkto",
+          "terminal": true
+        }
+      ]
+    },
+    "verification": "unverified"
+  },
+  "generated_from": [
+    "rules/cainta_disposal_rules.yaml",
+    "rules/cainta_flow_schematic.yaml"
+  ],
+  "materials": [
+    {
+      "animation": "recovery",
+      "citations": [
+        {
+          "citation": "Cainta Municipal Ordinance No. 2022-010",
+          "verified": false
+        },
+        {
+          "citation": "Republic Act No. 11898",
+          "verified": false
+        }
+      ],
+      "class": "PET_bottle",
+      "epr_covered": true,
+      "is_critical_class": false,
+      "local_names": [
+        "bote",
+        "plastik",
+        "PET"
+      ],
+      "often_refused": false,
+      "pathway": "sell_junkshop",
+      "prep_en": "Empty it, rinse it, and crush it flat. Caps and labels can stay on for most buyers — confirm with the shop.",
+      "prep_tl": "Ubusin, banlawan, at ipisa. Karaniwang tinatanggap pati takip at label — itanong sa junkshop.",
+      "presentable_as_official": false,
+      "price": {
+        "as_of": "2026",
+        "confidence": "low",
+        "display": "PHP 10-14/kg",
+        "has_market": true,
+        "high": 14,
+        "low": 10
+      },
+      "resin_code": 1,
+      "typical_unit_mass_g": 25,
+      "warnings": [
+        "Legal basis not yet verified against the source document: Cainta Municipal Ordinance No. 2022-010; Republic Act No. 11898. Do not attribute this guidance to the municipality.",
+        "Indicative price range only — no verified Cainta shop observations yet."
+      ]
+    },
+    {
+      "animation": "recovery",
+      "citations": [
+        {
+          "citation": "Cainta Municipal Ordinance No. 2022-010",
+          "verified": false
+        },
+        {
+          "citation": "Republic Act No. 11898",
+          "verified": false
+        }
+      ],
+      "class": "HDPE_PP_rigid",
+      "epr_covered": true,
+      "is_critical_class": false,
+      "local_names": [
+        "sibak",
+        "HDPE",
+        "PP"
+      ],
+      "often_refused": false,
+      "pathway": "sell_junkshop",
+      "prep_en": "Rinse out food or detergent residue. Shampoo bottles, pails, and basins count.",
+      "prep_tl": "Banlawan ang natirang laman. Kasama rito ang bote ng shampoo, timba, at planggana.",
+      "presentable_as_official": false,
+      "price": {
+        "as_of": "2026",
+        "confidence": "low",
+        "display": "~PHP 15/kg",
+        "has_market": true,
+        "high": 15,
+        "low": 15
+      },
+      "resin_code": 2,
+      "typical_unit_mass_g": 40,
+      "warnings": [
+        "Legal basis not yet verified against the source document: Cainta Municipal Ordinance No. 2022-010; Republic Act No. 11898. Do not attribute this guidance to the municipality.",
+        "Indicative price range only — no verified Cainta shop observations yet."
+      ]
+    },
+    {
+      "animation": "leakage",
+      "citations": [
+        {
+          "citation": "Cainta Municipal Ordinance No. 2023-012",
+          "verified": false
+        },
+        {
+          "citation": "Republic Act No. 11898",
+          "verified": false
+        }
+      ],
+      "class": "plastic_film_sachet",
+      "epr_covered": true,
+      "is_critical_class": true,
+      "local_names": [
+        "sachet",
+        "laminated",
+        "plastik na manipis"
+      ],
+      "often_refused": false,
+      "pathway": "residual_to_slf",
+      "prep_en": "No junkshop buys this. Keep it dry and out of the drain — this is the material that clogs Cainta's creeks. Check whether a nearby EPR take-back or ecobrick programme accepts it.",
+      "prep_tl": "Walang junkshop na bumibili nito. Panatilihing tuyo at huwag itapon sa kanal — ito ang bumabara sa mga sapa ng Cainta. Tingnan kung may EPR take-back o ecobrick program malapit sa inyo.",
+      "presentable_as_official": false,
+      "price": {
+        "as_of": "2026",
+        "confidence": "medium",
+        "display": "Walang bumibili — no junkshop market",
+        "has_market": false,
+        "high": 0,
+        "low": 0
+      },
+      "resin_code": 7,
+      "typical_unit_mass_g": 3,
+      "warnings": [
+        "Legal basis not yet verified against the source document: Cainta Municipal Ordinance No. 2023-012; Republic Act No. 11898. Do not attribute this guidance to the municipality."
+      ]
+    },
+    {
+      "animation": "recovery",
+      "citations": [
+        {
+          "citation": "Cainta Municipal Ordinance No. 2022-010",
+          "verified": false
+        }
+      ],
+      "class": "aluminium_can",
+      "epr_covered": false,
+      "is_critical_class": false,
+      "local_names": [
+        "lata",
+        "aluminum",
+        "aluminium"
+      ],
+      "often_refused": false,
+      "pathway": "sell_junkshop",
+      "prep_en": "Rinse and flatten. The highest-value everyday item in most households.",
+      "prep_tl": "Banlawan at ipisa. Ito ang pinakamahal sa karaniwang basura sa bahay.",
+      "presentable_as_official": false,
+      "price": {
+        "as_of": "2026",
+        "confidence": "low",
+        "display": "PHP 50-70/kg",
+        "has_market": true,
+        "high": 70,
+        "low": 50
+      },
+      "resin_code": null,
+      "typical_unit_mass_g": 15,
+      "warnings": [
+        "Legal basis not yet verified against the source document: Cainta Municipal Ordinance No. 2022-010. Do not attribute this guidance to the municipality.",
+        "Indicative price range only — no verified Cainta shop observations yet."
+      ]
+    },
+    {
+      "animation": "recovery",
+      "citations": [
+        {
+          "citation": "Cainta Municipal Ordinance No. 2022-010",
+          "verified": false
+        }
+      ],
+      "class": "ferrous_metal",
+      "epr_covered": false,
+      "is_critical_class": false,
+      "local_names": [
+        "bakal",
+        "yero"
+      ],
+      "often_refused": false,
+      "pathway": "sell_junkshop",
+      "prep_en": "Sold by weight. Many shops set a minimum weight — worth checking before you carry it over.",
+      "prep_tl": "Timbang ang basehan. Marami ang may minimum na timbang — itanong muna bago dalhin.",
+      "presentable_as_official": false,
+      "price": {
+        "as_of": "2026",
+        "confidence": "low",
+        "display": "PHP 11-14/kg",
+        "has_market": true,
+        "high": 14,
+        "low": 11
+      },
+      "resin_code": null,
+      "typical_unit_mass_g": 200,
+      "warnings": [
+        "Legal basis not yet verified against the source document: Cainta Municipal Ordinance No. 2022-010. Do not attribute this guidance to the municipality.",
+        "Indicative price range only — no verified Cainta shop observations yet."
+      ]
+    },
+    {
+      "animation": "recovery",
+      "citations": [
+        {
+          "citation": "Cainta Municipal Ordinance No. 2022-010",
+          "verified": false
+        }
+      ],
+      "class": "copper_wire",
+      "epr_covered": false,
+      "is_critical_class": false,
+      "local_names": [
+        "tanso"
+      ],
+      "often_refused": false,
+      "pathway": "sell_junkshop",
+      "prep_en": "The highest-value common scrap. Stripped wire is worth more than insulated.",
+      "prep_tl": "Pinakamataas ang halaga. Mas mahal ang hinubaran ng insulation.",
+      "presentable_as_official": false,
+      "price": {
+        "as_of": "2026",
+        "confidence": "low",
+        "display": "PHP 350-400/kg",
+        "has_market": true,
+        "high": 400,
+        "low": 350
+      },
+      "resin_code": null,
+      "typical_unit_mass_g": 50,
+      "warnings": [
+        "Legal basis not yet verified against the source document: Cainta Municipal Ordinance No. 2022-010. Do not attribute this guidance to the municipality.",
+        "Indicative price range only — no verified Cainta shop observations yet."
+      ]
+    },
+    {
+      "animation": "recovery",
+      "citations": [
+        {
+          "citation": "Cainta Municipal Ordinance No. 2022-010",
+          "verified": false
+        }
+      ],
+      "class": "glass_bottle",
+      "epr_covered": false,
+      "is_critical_class": false,
+      "local_names": [
+        "bote (salamin)",
+        "salamin"
+      ],
+      "often_refused": true,
+      "pathway": "barangay_mrf",
+      "prep_en": "Often refused by junkshops — heavy, low value, and a breakage risk. Refillable soft-drink and beer bottles are the exception: return those to the store for the deposit.",
+      "prep_tl": "Madalas tinatanggihan ng junkshop — mabigat, mababa ang halaga, at delikadong mabasag. Iba ang bote ng softdrinks at beer na may balik-bote — isauli sa tindahan.",
+      "presentable_as_official": false,
+      "price": {
+        "as_of": "2026",
+        "confidence": "low",
+        "display": "PHP 0-2/kg",
+        "has_market": true,
+        "high": 2,
+        "low": 0
+      },
+      "resin_code": null,
+      "typical_unit_mass_g": 300,
+      "warnings": [
+        "Legal basis not yet verified against the source document: Cainta Municipal Ordinance No. 2022-010. Do not attribute this guidance to the municipality.",
+        "Indicative price range only — no verified Cainta shop observations yet."
+      ]
+    },
+    {
+      "animation": "recovery",
+      "citations": [
+        {
+          "citation": "Cainta Municipal Ordinance No. 2022-010",
+          "verified": false
+        },
+        {
+          "citation": "Republic Act No. 11898",
+          "verified": false
+        }
+      ],
+      "class": "cardboard",
+      "epr_covered": true,
+      "is_critical_class": false,
+      "local_names": [
+        "karton"
+      ],
+      "often_refused": false,
+      "pathway": "sell_junkshop",
+      "prep_en": "Must be dry. Wet or greasy cardboard is refused, so keep it inside before a storm.",
+      "prep_tl": "Kailangang tuyo. Tinatanggihan ang basa o mamantika — itago sa loob bago umulan.",
+      "presentable_as_official": false,
+      "price": {
+        "as_of": "2026",
+        "confidence": "low",
+        "display": "PHP 4-6/kg",
+        "has_market": true,
+        "high": 6,
+        "low": 4
+      },
+      "resin_code": null,
+      "typical_unit_mass_g": 500,
+      "warnings": [
+        "Legal basis not yet verified against the source document: Cainta Municipal Ordinance No. 2022-010; Republic Act No. 11898. Do not attribute this guidance to the municipality.",
+        "Indicative price range only — no verified Cainta shop observations yet."
+      ]
+    },
+    {
+      "animation": "recovery",
+      "citations": [
+        {
+          "citation": "Cainta Municipal Ordinance No. 2022-010",
+          "verified": false
+        }
+      ],
+      "class": "paper_newsprint",
+      "epr_covered": false,
+      "is_critical_class": false,
+      "local_names": [
+        "dyaryo",
+        "puting papel"
+      ],
+      "often_refused": false,
+      "pathway": "sell_junkshop",
+      "prep_en": "Keep dry and bundled. White paper is graded separately from newsprint and pays more.",
+      "prep_tl": "Panatilihing tuyo at nakabigkis. Hiwalay ang grado ng puting papel — mas mataas ang bayad.",
+      "presentable_as_official": false,
+      "price": {
+        "as_of": "2026",
+        "confidence": "low",
+        "display": "PHP 4-8/kg",
+        "has_market": true,
+        "high": 8,
+        "low": 4
+      },
+      "resin_code": null,
+      "typical_unit_mass_g": 5,
+      "warnings": [
+        "Legal basis not yet verified against the source document: Cainta Municipal Ordinance No. 2022-010. Do not attribute this guidance to the municipality.",
+        "Indicative price range only — no verified Cainta shop observations yet."
+      ]
+    },
+    {
+      "animation": "recovery",
+      "citations": [
+        {
+          "citation": "Republic Act No. 9003",
+          "verified": false
+        },
+        {
+          "citation": "Cainta Municipal Ordinance No. 2022-010",
+          "verified": false
+        }
+      ],
+      "class": "organic_food_waste",
+      "epr_covered": false,
+      "is_critical_class": false,
+      "local_names": [
+        "bulok",
+        "nabubulok"
+      ],
+      "often_refused": false,
+      "pathway": "home_compost",
+      "prep_en": "Compost it or set it out on the biodegradable collection day. RA 9003 treats this as a diverted stream, not residual — it is usually the largest share of household waste by weight.",
+      "prep_tl": "I-compost o ilabas sa araw ng nabubulok. Sa ilalim ng RA 9003, hindi ito residual — kadalasan ito ang pinakamabigat na bahagi ng basura sa bahay.",
+      "presentable_as_official": false,
+      "price": {
+        "as_of": "2026",
+        "confidence": "medium",
+        "display": "Walang bumibili — no junkshop market",
+        "has_market": false,
+        "high": 0,
+        "low": 0
+      },
+      "resin_code": null,
+      "typical_unit_mass_g": 100,
+      "warnings": [
+        "Legal basis not yet verified against the source document: Republic Act No. 9003; Cainta Municipal Ordinance No. 2022-010. Do not attribute this guidance to the municipality."
+      ]
+    },
+    {
+      "animation": "leakage",
+      "citations": [
+        {
+          "citation": "Cainta Municipal Ordinance No. 2023-012",
+          "verified": false
+        }
+      ],
+      "class": "residual_other",
+      "epr_covered": false,
+      "is_critical_class": false,
+      "local_names": [
+        "residual",
+        "iba pa"
+      ],
+      "often_refused": false,
+      "pathway": "residual_to_slf",
+      "prep_en": "Catch-all for anything the classifier cannot place. Set out on residual collection day.",
+      "prep_tl": "Para sa hindi matukoy. Ilabas sa araw ng residual.",
+      "presentable_as_official": false,
+      "price": {
+        "as_of": "2026",
+        "confidence": "medium",
+        "display": "Walang bumibili — no junkshop market",
+        "has_market": false,
+        "high": 0,
+        "low": 0
+      },
+      "resin_code": null,
+      "typical_unit_mass_g": null,
+      "warnings": [
+        "Legal basis not yet verified against the source document: Cainta Municipal Ordinance No. 2023-012. Do not attribute this guidance to the municipality."
+      ]
+    }
+  ],
+  "overrides": [
+    {
+      "animation": "recovery",
+      "id": "special-waste-battery",
+      "pathway": "special_waste_dropoff",
+      "prep_en": "Keep it dry and separate, ideally taped at the terminals. Do not bin it and do not burn it. Ask the barangay when the next special waste collection is.",
+      "prep_tl": "Itabi nang tuyo at hiwalay, mabuti kung natakpan ang dulo. Huwag ihalo sa basura at huwag sunugin. Itanong sa barangay kung kailan ang susunod na special waste collection.",
+      "reason_en": "Batteries are special waste under RA 9003 and must not enter household residual.",
+      "reason_tl": "Espesyal na basura ang baterya sa ilalim ng RA 9003 — hindi ito dapat ihalo sa residual.",
+      "when": {
+        "user_flag": "battery"
+      }
+    },
+    {
+      "animation": "recovery",
+      "id": "special-waste-ewaste",
+      "pathway": "special_waste_dropoff",
+      "prep_en": "Keep it whole — do not strip it for the copper, which is where the hazard is. Look for an accredited e-waste handler or a barangay collection drive.",
+      "prep_tl": "Huwag hatiin o kunan ng tanso — doon ang panganib. Hanapin ang akreditadong e-waste handler o ang collection drive ng barangay.",
+      "reason_en": "Electronics need a WEEE-accredited handler. Some junkshops buy them for the copper — that is not safe handling.",
+      "reason_tl": "Kailangan ng akreditadong tagakuha ang electronics. May junkshop na bumibili para sa tanso — hindi iyon ligtas na pagtatapon.",
+      "when": {
+        "user_flag": "electronic"
+      }
+    },
+    {
+      "animation": "leakage",
+      "id": "contaminated-recyclable",
+      "pathway": "residual_to_slf",
+      "prep_en": "If you can still rinse and dry it, it goes back to its normal route and keeps its value. If the soiling cannot be removed, it is residual — separating it protects the rest of the bale.",
+      "prep_tl": "Kung kaya pang banlawan at patuyuin, bumalik ito sa dating ruta at may halaga pa rin. Kung hindi na maaalis ang dumi, residual na ito — ang paghihiwalay dito ang nagliligtas sa iba pang naipon.",
+      "reason_en": "Food-contaminated paper and cardboard are refused at the counter and downgrade a whole bale.",
+      "reason_tl": "Tinatanggihan ang papel at kartong may dumi ng pagkain — nasisira nito ang buong bale.",
+      "when": {
+        "contaminated": true
+      }
+    }
+  ],
+  "pathways": {
+    "barangay_mrf": {
+      "label_en": "Bring to the barangay MRF",
+      "label_tl": "Dalhin sa MRF ng barangay",
+      "terminus": "recovery"
+    },
+    "home_compost": {
+      "label_en": "Compost at home",
+      "label_tl": "I-compost sa bahay",
+      "terminus": "recovery"
+    },
+    "residual_to_slf": {
+      "label_en": "Residual — collected for the sanitary landfill",
+      "label_tl": "Residual — kokolektahin para sa sanitary landfill",
+      "terminus": "disposal"
+    },
+    "sell_junkshop": {
+      "label_en": "Sell to a junkshop",
+      "label_tl": "Ibenta sa junkshop",
+      "terminus": "recovery"
+    },
+    "special_waste_dropoff": {
+      "label_en": "Special waste drop-off",
+      "label_tl": "Espesyal na basura — may hiwalay na drop-off",
+      "terminus": "controlled"
+    }
+  },
+  "price_provenance": {
+    "confidence": "low",
+    "note": "These are indicative ranges, not observed Cainta counter prices. The UI must show last_verified_date alongside any price and visibly decay confidence as it ages (plan §10). Until verified_shops >= 25, present ranges as \"typical range\" and never as \"what this shop pays\".",
+    "source": "Planning document §5.1, indicative 2026 ranges.",
+    "verified_shops": 0
+  },
+  "schema_version": 1,
+  "status": "provisional",
+  "updated_on": "2026-07-26",
+  "verification": {
+    "legal_sources_total": 6,
+    "legal_sources_verified": 0,
+    "phase1_gate_met": false,
+    "phase2_gate_met": false,
+    "verified_shops": 0
+  }
+}

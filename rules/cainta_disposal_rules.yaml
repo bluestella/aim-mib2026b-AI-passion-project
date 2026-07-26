@@ -215,6 +215,10 @@ materials:
     fallback_pathway: residual_to_slf
     price_php_per_kg: {low: 0, high: 2, confidence: low, as_of: "2026"}
     accepted_by_pct_of_local_junkshops: null
+    # A nominal price exists but most shops will not take it. Showing the range
+    # without this flag sends someone across the barangay with a heavy sack for a
+    # refusal — the exact wasted trip this app is supposed to prevent.
+    often_refused: true
     prep_en: "Often refused by junkshops — heavy, low value, and a breakage risk. Refillable soft-drink and beer bottles are the exception: return those to the store for the deposit."
     prep_tl: "Madalas tinatanggihan ng junkshop — mabigat, mababa ang halaga, at delikadong mabasag. Iba ang bote ng softdrinks at beer na may balik-bote — isauli sa tindahan."
     citations: [ord-2022-010]
@@ -282,22 +286,33 @@ materials:
 # --- Overrides ----------------------------------------------------------------
 # Applied after the material lookup. These are hazard and special-waste routes
 # that cut across material classes, so they cannot live on a single class row.
+#
+# `reason_*` explains why the pathway changed. `prep_*` REPLACES the material's own
+# prep text, because once an override fires the material's instructions are usually
+# wrong: telling someone to rinse and sell a PET bottle contradicts a verdict that
+# just routed it to residual.
 overrides:
   - id: special-waste-battery
     when: {user_flag: battery}
     pathway: special_waste_dropoff
     reason_en: "Batteries are special waste under RA 9003 and must not enter household residual."
     reason_tl: "Espesyal na basura ang baterya sa ilalim ng RA 9003 — hindi ito dapat ihalo sa residual."
+    prep_en: "Keep it dry and separate, ideally taped at the terminals. Do not bin it and do not burn it. Ask the barangay when the next special waste collection is."
+    prep_tl: "Itabi nang tuyo at hiwalay, mabuti kung natakpan ang dulo. Huwag ihalo sa basura at huwag sunugin. Itanong sa barangay kung kailan ang susunod na special waste collection."
     citations: [ra-9003, ord-2023-012]
   - id: special-waste-ewaste
     when: {user_flag: electronic}
     pathway: special_waste_dropoff
     reason_en: "Electronics need a WEEE-accredited handler. Some junkshops buy them for the copper — that is not safe handling."
     reason_tl: "Kailangan ng akreditadong tagakuha ang electronics. May junkshop na bumibili para sa tanso — hindi iyon ligtas na pagtatapon."
+    prep_en: "Keep it whole — do not strip it for the copper, which is where the hazard is. Look for an accredited e-waste handler or a barangay collection drive."
+    prep_tl: "Huwag hatiin o kunan ng tanso — doon ang panganib. Hanapin ang akreditadong e-waste handler o ang collection drive ng barangay."
     citations: [ra-9003, ord-2023-012]
   - id: contaminated-recyclable
     when: {contaminated: true}
     pathway: residual_to_slf
     reason_en: "Food-contaminated paper and cardboard are refused at the counter and downgrade a whole bale."
     reason_tl: "Tinatanggihan ang papel at kartong may dumi ng pagkain — nasisira nito ang buong bale."
+    prep_en: "If you can still rinse and dry it, it goes back to its normal route and keeps its value. If the soiling cannot be removed, it is residual — separating it protects the rest of the bale."
+    prep_tl: "Kung kaya pang banlawan at patuyuin, bumalik ito sa dating ruta at may halaga pa rin. Kung hindi na maaalis ang dumi, residual na ito — ang paghihiwalay dito ang nagliligtas sa iba pang naipon."
     citations: [ord-2022-010]
