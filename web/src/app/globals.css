@@ -4,6 +4,10 @@
  * this is actually used: large touch targets, high contrast, no hairline text.
  * Light and dark both supported because the app is used outdoors at noon and
  * indoors at night.
+ *
+ * Plain CSS with custom properties rather than Tailwind or CSS Modules: the design
+ * is one small token set and eight screens, and a utility framework would add a
+ * dependency and a build concept without removing a single line of thinking.
  */
 
 :root {
@@ -80,11 +84,14 @@ p { margin: 0 0 12px; }
 }
 .topbar h1 { font-size: 1.05rem; margin: 0; flex: 1; font-weight: 700; letter-spacing: 0.02em; }
 .topbar h1 span { font-weight: 400; opacity: 0.85; }
-.topbar button {
-  background: rgba(255,255,255,0.16); color: inherit; border: 0;
+.topbar button, .topbar a.iconbtn {
+  background: rgba(255,255,255,0.16); color: inherit; border: 0; text-decoration: none;
   width: 36px; height: 36px; border-radius: 50%; font-size: 1.1rem; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; flex: none;
 }
-@media (prefers-color-scheme: dark) { .topbar button { background: var(--surface-2); } }
+@media (prefers-color-scheme: dark) {
+  .topbar button, .topbar a.iconbtn { background: var(--surface-2); }
+}
 
 .provisional {
   background: var(--warn-soft); color: var(--warn);
@@ -101,13 +108,13 @@ main { padding: 20px var(--pad) 28px; max-width: 640px; margin: 0 auto; }
   background: var(--surface); border-top: 1px solid var(--line);
   padding-bottom: env(safe-area-inset-bottom);
 }
-.tabbar button {
-  background: none; border: 0; cursor: pointer;
+.tabbar a {
+  background: none; border: 0; cursor: pointer; text-decoration: none;
   display: flex; flex-direction: column; align-items: center; gap: 2px;
   padding: 9px 4px; font-size: 0.68rem; color: var(--ink-soft); min-height: var(--tap);
 }
-.tabbar button span { font-size: 1.25rem; line-height: 1; }
-.tabbar button.active { color: var(--water); font-weight: 600; }
+.tabbar a span { font-size: 1.25rem; line-height: 1; }
+.tabbar a.active { color: var(--water); font-weight: 600; }
 
 /* ── Buttons ────────────────────────────────────────────────────────── */
 
@@ -256,3 +263,21 @@ button { font: inherit; }
   border-radius: var(--radius); padding: 22px; text-align: center; color: var(--ink-soft);
 }
 .empty strong { display: block; color: var(--ink); margin-bottom: 6px; }
+
+/* ── Next.js additions ───────────────────────────────────────────────── */
+
+/* Focus visibility: the vanilla build relied on UA defaults, which the reset in
+ * Next's global stylesheet does not guarantee. Keyboard users need this. */
+:focus-visible {
+  outline: 3px solid var(--water);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* Router transitions render the next screen before scroll resets; without this a
+ * user lands halfway down the privacy page. */
+main { scroll-margin-top: 0; }
+
+/* Shown while localStorage is being read on first paint. Keeps layout height so the
+ * page does not jump when the real content arrives. */
+.skeleton { min-height: 60vh; }

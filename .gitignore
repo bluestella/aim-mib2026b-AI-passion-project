@@ -43,8 +43,11 @@ htmlcov/
 .ipynb_checkpoints/
 
 node_modules/
-app/dist/
-app/build/
+web/.next/
+web/out/
+web/.vercel/
+*.tsbuildinfo
+next-env.d.ts
 
 .DS_Store
 *.swp

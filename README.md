@@ -33,7 +33,7 @@ local knowledge graph first, machine learning second.
 | 1 | Ordinance / NSWMC harvest | **Blocked — no network access to the source hosts** |
 | 1 | Disposal rules table (11 classes, bilingual) | Built — **all legal citations `unverified`** |
 | 2 | Junkshop field survey instrument | Drafted — fieldwork not started |
-| 3 | **Rules-only PWA (`app/`)** | **Built and browser-verified** |
+| 3 | **Rules-only PWA (`web/`)** | **Built, browser-verified, Vercel-ready** |
 | 4–6 | Corpus, model bake-off, classifier (`models/`) | Not started |
 
 The plan sequences ML into v2 deliberately. **Phase 3 ships a genuinely useful product
@@ -57,12 +57,13 @@ pytest
 Run the app:
 
 ```bash
-python scripts/build_app_data.py           # compile rules/*.yaml -> app/data/rules.json
-python -m http.server 8765 --directory app # then open http://127.0.0.1:8765/
+python scripts/build_app_data.py   # compile rules/*.yaml -> web/src/data/rules.json
+cd web && npm install && npm run dev
 ```
 
 Pick a barangay, tap `sachet`, and watch it reach Laguna de Bay. See
-[app/README.md](app/README.md) for the invariants that screen enforces.
+[web/README.md](web/README.md) for the invariants that screen enforces and for the
+one Vercel setting the deploy needs.
 
 Ask the rules engine the same question from the CLI:
 
@@ -113,7 +114,7 @@ rules/           cainta_disposal_rules.yaml — the Stage-2 decision layer
                  cainta_flow_schematic.yaml — Flow Simulation stages (schematic)
 src/daloy/       rules_engine · metrics (PCC) · spatial (H3 binning)
 scripts/         build_app_data.py (rules -> app bundle) · drive_app.py (browser check)
-app/             The PWA — rules-only v1, no build step
+web/             The PWA — Next.js 16 + React 19 + TypeScript, deploys to Vercel
 tests/           85 tests, fully offline
 data/            raw (immutable) · interim · processed · external
 notebooks/       Analysis; logic lives in src/daloy, not in cells

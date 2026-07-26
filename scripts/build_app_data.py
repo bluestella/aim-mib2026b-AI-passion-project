@@ -1,9 +1,10 @@
-"""Compile the rules YAML into the PWA's data bundle.
+"""Compile the rules YAML into the web app's data bundle.
 
-The app is a static PWA with no backend and no build step, so it cannot read YAML
-or import ``daloy.rules_engine``. This script is the bridge: it flattens
-``rules/cainta_disposal_rules.yaml`` and ``rules/cainta_flow_schematic.yaml`` into a
-single ``app/data/rules.json`` that the browser fetches once and caches.
+The Next.js app cannot read YAML or import ``daloy.rules_engine``. This script is the
+bridge: it flattens ``rules/cainta_disposal_rules.yaml`` and
+``rules/cainta_flow_schematic.yaml`` into a single ``web/src/data/rules.json``, which
+the app imports at build time — so a missing or malformed bundle is a build failure
+rather than a runtime blank screen.
 
 The point of compiling rather than hand-maintaining that JSON is that there is exactly
 one source of truth. ``tests/test_build_app_data.py`` fails if the committed bundle
@@ -31,7 +32,7 @@ import yaml
 REPO_ROOT = Path(__file__).resolve().parent.parent
 RULES_PATH = REPO_ROOT / "rules" / "cainta_disposal_rules.yaml"
 FLOW_PATH = REPO_ROOT / "rules" / "cainta_flow_schematic.yaml"
-OUTPUT_PATH = REPO_ROOT / "app" / "data" / "rules.json"
+OUTPUT_PATH = REPO_ROOT / "web" / "src" / "data" / "rules.json"
 
 sys.path.insert(0, str(REPO_ROOT / "src"))
 
@@ -129,7 +130,7 @@ def build() -> dict:
             "leakage": flow["leakage"],
             "recovery": flow["recovery"],
         },
-        # Barangay selection replaces GPS in v1 — see app/README.md. Sourced from
+        # Barangay selection replaces GPS in v1 — see web/README.md. Sourced from
         # scrapers/psa_psgc.py's expected list; reconciled against PSGC on harvest.
         "barangays": [
             "San Andres",
